@@ -1,0 +1,26 @@
+// Place all the styles related to the dashboards controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.metric {  
+  line-height: 100%;
+  margin-bottom: 16px;
+  min-height: 30px;
+  vertical-align: bottom;
+  
+  .metric_name {
+    min-height: 30px;
+  }
+  
+  .sparkline {
+    min-height: 30px;
+    vertical-align: bottom;
+  }
+  
+  .metric_value {
+    min-height: 30px;
+    margin-left: 0;
+    vertical-align: bottom;
+    text-align: right;
+  }
+}
