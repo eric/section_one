@@ -15,6 +15,7 @@ look like and there is no logic to grab metrics from the remote services.
 
 * Dashboard builder
 * Metric timeseries querier
+* Composite metrics (`errors / requests * 100`)
 
 
 ## Initially supported backends
