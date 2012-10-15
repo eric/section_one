@@ -3,6 +3,14 @@
 An attempt to make a multi-backend metrics dashboard with a look inspired
 by FiveRuns Dash.
 
+## Current Status
+
+**Completely doesn't work.**
+
+This is a work in progress. The dashboard is a mockup of what I hope it to
+look like and there is no logic to grab metrics from the remote services.
+
+
 ## Currently supported backends
 
 * [Scout](https://scoutapp.com/)
