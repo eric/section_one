@@ -1,6 +1,7 @@
 <h2>Dashboard</h2>
 
 <div class="row">
+
   <%- @data.each do |column| -%>
     <div class="span4">
       <%- column.each do |section| -%>
@@ -13,8 +14,10 @@
                 <div class="span1 metric_name">
                   <small><%= link_to metric[:name] %></small>
                 </div>
+
                 <div class="span2 sparklines" values="<%= metric[:values].join(',') %>">
                 </div>
+
                 <div class="span1 metric_value">
                   <strong><%= metric[:values].last %></strong><br>
                   <small class="muted"><%= metric[:unit] %></small>
@@ -28,13 +31,3 @@
   <%- end -%>
 
 </div>
-
-<script type="text/javascript">
-$('.sparklines').sparkline('html', { 
-  height: '22px', width: '130px', 
-  spotColor: '#000', 
-  minSpotColor: null,
-  maxSpotColor: null,
-  fillColor: '#E6F2FA', lineColor: '#0077CC', disableInteraction: true 
-});
-</script>

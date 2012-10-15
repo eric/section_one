@@ -1,0 +1,69 @@
+<%= form_for @service, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= render 'shared/form_errors', :object => f.object %>
+
+  <div class="control-group">
+    <%= f.label :service_type, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :service_type, [ 'scout', 'librato' ] %>
+    </div>
+  </div>
+<% end %>
+
+<%= form_for @service, :html => { :class => 'form-horizontal service_settings', :id => 'scout_form' } do |f| %>
+  <%= f.hidden_field :service_type, :value => 'scout' %>
+
+  <%= f.fields_for :settings, f.object.settings do |s| %>
+  <div class="control-group">
+    <%= s.label :account, :class => 'control-label' %>
+    <div class="controls">
+      <%= s.text_field :account, :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= s.label :email, :class => 'control-label' %>
+    <div class="controls">
+      <%= s.text_field :email, :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= s.label :password, :class => 'control-label' %>
+    <div class="controls">
+      <%= s.password_field :password %>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                services_path, :class => 'btn' %>
+  </div>
+<% end %>
+
+<%= form_for @service, :html => { :class => 'form-horizontal service_settings', :id => 'librato_form' } do |f| %>
+  <%= f.hidden_field :service_type, :value => 'librato' %>
+
+  <%= f.fields_for :settings, f.object.settings do |s| %>
+  <div class="control-group">
+    <%= s.label :email, :class => 'control-label' %>
+    <div class="controls">
+      <%= s.text_field :email, :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= s.label :token, :class => 'control-label' %>
+    <div class="controls">
+      <%= s.password_field :token %>
+    </div>
+  </div>
+  <% end %>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                services_path, :class => 'btn' %>
+  </div>
+<% end %>

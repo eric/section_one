@@ -1,5 +1,11 @@
 SectionOne::Application.routes.draw do
+  get "metrics/index"
+
+  resources :services
+
   resources :dashboards
+
+  resources :metrics
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

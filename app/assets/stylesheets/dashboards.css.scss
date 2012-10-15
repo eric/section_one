@@ -6,7 +6,6 @@
   line-height: 100%;
   margin-bottom: 16px;
   min-height: 30px;
-  vertical-align: bottom;
   
   .metric_name {
     min-height: 30px;
@@ -14,13 +13,11 @@
   
   .sparkline {
     min-height: 30px;
-    vertical-align: bottom;
   }
   
   .metric_value {
     min-height: 30px;
     margin-left: 0;
-    vertical-align: bottom;
     text-align: right;
   }
 }

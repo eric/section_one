@@ -11,12 +11,12 @@ class DashboardsController < ApplicationController
             { 
               :name => 'Request Rate',
               :unit => 'reqs/sec',
-              :values => 60.times.map { rand(20) }
+              :values => 60.times.map { rand(40) }
             },
             { 
               :name => 'Request Time',
               :unit => 'ms',
-              :values => 60.times.map { rand(20) }
+              :values => 60.times.map { rand(100) }
             },
           ]
         },
