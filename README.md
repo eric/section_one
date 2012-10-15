@@ -11,6 +11,12 @@ This is a work in progress. The dashboard is a mockup of what I hope it to
 look like and there is no logic to grab metrics from the remote services.
 
 
+## Work to be done
+
+* Dashboard builder
+* Metric timeseries querier
+
+
 ## Initially supported backends
 
 * [Scout](https://scoutapp.com/)
