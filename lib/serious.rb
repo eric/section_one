@@ -8,7 +8,7 @@ module Serious
   def future(*args, &block)
     promise = Serious::Promise.new
 
-    Thread.new(promise, args) do |promise, args|
+    Thread.new(promise, args, block) do |promise, args, block|
       begin
         promise.__success__(block.call(*args))
       rescue Exception => e
