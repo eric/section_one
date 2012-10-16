@@ -5,6 +5,7 @@
   <thead>
     <tr>
       <td>Name</td>
+      <td>Description</td>
     </tr>
   </thead>
   
@@ -12,6 +13,7 @@
     <%- @metrics.each do |metric| -%>
     <tr>
       <td><%= metric.name %></td>
+      <td><%= metric.description %></td>
     </tr>
     <%- end -%>
   </tbody>

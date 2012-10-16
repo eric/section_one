@@ -1,8 +1,47 @@
 class DashboardsController < ApplicationController
   def index
+    @dashboards = Dashboard.all
+  end
+
+  def new
+    @dashboard = Dashboard.new
+  end
+
+  def create
+    @dashboard = Dashboard.new(params[:dashboard])
+
+    respond_to do |format|
+      if @dashboard.save
+        format.html { redirect_to @dashboard }
+        format.json { render json: @dashboard, status: :created, location: @dashboard }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @dashboard.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def edit
+    @dashboard = Dashboard.find(params[:id])
+  end
+
+  def update
+    @dashboard = Dashboard.find(params[:id])
+
+    respond_to do |format|
+      if @dashboard.update_attributes(params[:dashboard])
+        format.html { redirect_to @dashboard }
+        format.json { render json: @dashboard, status: :created, location: @dashboard }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @dashboard.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def show
+    @dashboard = Dashboard.find(params[:id])
+
     @data = [
       [
         { 

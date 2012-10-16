@@ -1,12 +1,14 @@
+require 'serious/promise'
+
 module Serious
   extend self
 
   def promise
-    Serious::Promise.new
+    ::Serious::Promise.new
   end
 
   def future(*args, &block)
-    promise = Serious::Promise.new
+    promise = ::Serious::Promise.new
 
     Thread.new(promise, args, block) do |promise, args, block|
       begin
@@ -27,5 +29,3 @@ module Serious
     end
   end
 end
-
-require 'serious/promise'

@@ -1,9 +1,11 @@
-require 'section_one/scout_client'
-require 'section_one/librato_metrics_client'
+require_dependency 'section_one/scout_client'
+require_dependency 'section_one/librato_metrics_client'
+
+require 'hashie/mash'
 
 class Service < ActiveRecord::Base
   attr_accessible :service_type, :settings
-  serialize :settings
+  serialize :settings, YAML
 
   validates_inclusion_of :service_type, :in => %w(scout librato)
   validate :validate_credentials
@@ -15,6 +17,7 @@ class Service < ActiveRecord::Base
 
   def settings
     value = read_attribute(:settings)
+    value = YAML::load(value) if value.is_a?(String)
     value = Hashie::Mash.new(value) unless value.is_a?(Hashie::Mash)
     value
   end
@@ -37,7 +40,20 @@ class Service < ActiveRecord::Base
   def metrics
     return nil unless client
 
-    client.metrics
+    client.metrics.tap do |metrics|
+      metrics.each do |metric|
+        metric.service = self
+      end
+    end
+  end
+
+  def values_for(identifier, duration, end_at = nil)
+    return unless client
+
+    end_at ||= Time.now
+    start_at = end_at - duration
+
+    client.values_for(identifier, start_at, end_at)
   end
 
   def validate_credentials

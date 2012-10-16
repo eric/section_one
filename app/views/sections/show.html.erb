@@ -1,0 +1,40 @@
+<div class="pull-right">
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_dashboard_section_path(@dashboard, @section), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              dashboard_section_path(@dashboard, @section),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>
+
+<div class="page-header">
+  <h1><%= @section.name %></h1>
+</div>
+
+
+<form class="form-search span10">
+  <legend>Add Metrics</legend>
+
+  <div class="form-actions">
+    <input id="metric_search" class="input-xlarge search-query" type="text" placeholder="metric.name">
+  </div>
+
+  <table class="table table-striped table-condensed">
+    <tbody id="metrics">
+      <%- @metrics.each do |metric| -%>
+      <tr>
+        <td>
+          <%= metric.name %>
+          <%- if metric.description.present? -%>
+          <span class="muted">(<%= metric.description %>)</span>
+          <%-end -%>
+        </td>
+        <td>
+          <button class="btn btn-small">Add</button>
+        </td>
+      </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+</form>

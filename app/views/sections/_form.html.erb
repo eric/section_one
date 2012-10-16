@@ -1,0 +1,25 @@
+<%= form_for [ @dashboard, @section ], :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field input-xlarge' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Column</label>
+    <div class="controls">
+      <%- (1..3).each do |col| -%>
+      <label class="radio inline">
+        <%= f.radio_button :column, col %> <%= col %>
+      </label>
+      <%- end -%>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                sections_path, :class => 'btn' %>
+  </div>
+<% end %>

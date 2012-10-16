@@ -1,6 +1,42 @@
-<h2>Dashboard</h2>
+<div class="pull-right">
+  <%= link_to 'Add Section', new_dashboard_section_path(@dashboard), :class => 'btn' %>
+  <%= link_to 'Edit', edit_dashboard_path(@dashboard), :class => 'btn' %>
+</div>
+
+<div class="page-header">
+  <h2>Dashboard</h2>
+</div>
 
 <div class="row">
+  <%- (1..3).each do |column| %>
+  <div class="span4">
+    <%- @dashboard.sections.column(column).each do |section| %>
+    <div class="row">
+      <div class="span4">
+        <h4><%= link_to section.name, [ @dashboard, section ] %></h4>
+        <%- section.metrics.each do |metric| -%>
+        <div class="row metric">
+          <div class="span1 metric_name">
+            <small><%= link_to metric.name, metric.url %></small>
+          </div>
+
+          <div class="span2 sparklines" values="<%= metric.values.join(',') %>">
+          </div>
+
+          <div class="span1 metric_value">
+            <strong><%= metric.values.last %></strong><br>
+            <small class="muted"><%= metric.units %></small>
+          </div>
+        </div>
+        <%- end -%>
+      </div>
+    </div>
+    <%- end -%>
+  </div>
+  <%- end -%>
+</div>
+
+<% if false %>
 
   <%- @data.each do |column| -%>
     <div class="span4">
@@ -31,3 +67,4 @@
   <%- end -%>
 
 </div>
+<% end %>

@@ -1,19 +1,11 @@
-class Metric
-  attr_reader   :service_type
-  attr_accessor :name, :units, :values
+class Metric < ActiveRecord::Base
+  belongs_to :section
+  belongs_to :service
 
-  attr_accessor :service_identifier
+  acts_as_list :scope => :section_id
 
-  def initialize(service_type)
-    @service_type = service_type
-  end
+  attr_accessible :name, :description, :units
 
-  def as_json(*args)
-    {
-      :service_type       => service_type,
-      :name               => name,
-      :units              => units,
-      :service_identifier => service_identifier
-    }
-  end
+  serialize :service_identifier, YAML
+
 end

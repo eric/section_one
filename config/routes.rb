@@ -1,9 +1,11 @@
 SectionOne::Application.routes.draw do
-  get "metrics/index"
+  resources :sections
 
   resources :services
 
-  resources :dashboards
+  resources :dashboards do
+    resources :sections
+  end
 
   resources :metrics
 

@@ -12,6 +12,7 @@ gem 'faraday'
 gem 'faraday_middleware'
 gem 'multi_xml'
 gem 'nokogiri'
+gem 'acts_as_list'
 
 
 # Gems used only for assets and not required

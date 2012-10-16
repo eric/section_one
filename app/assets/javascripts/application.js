@@ -14,4 +14,6 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery.sparkline
+//= require string_score
+//= require jquery.livesearch
 //= require_tree .

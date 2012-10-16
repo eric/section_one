@@ -1,4 +1,4 @@
-require 'serious'
+require_dependency 'serious'
 
 class MetricsController < ApplicationController
   def index

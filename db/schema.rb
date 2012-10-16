@@ -11,7 +11,29 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014070301) do
+ActiveRecord::Schema.define(:version => 20121016055635) do
+
+  create_table "dashboards", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "metrics", :force => true do |t|
+    t.string  "name",                               :null => false
+    t.string  "description"
+    t.string  "units"
+    t.string  "graph_url"
+    t.string  "service_identifier", :limit => 1024
+    t.integer "service_id"
+    t.integer "section_id"
+    t.integer "position"
+  end
+
+  create_table "sections", :force => true do |t|
+    t.string  "name"
+    t.integer "dashboard_id"
+    t.integer "column",       :default => 1
+    t.integer "position"
+  end
 
   create_table "services", :force => true do |t|
     t.string "service_type"

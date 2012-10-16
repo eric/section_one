@@ -31,11 +31,15 @@ module SectionOne
     def all_metrics
       paginated_query('metrics') do |resp|
         resp['metrics'].map do |metric|
-          Metric.new('librato').tap do |m|
-            m.name  = metric['name']
-            m.units = metric['attributes']['display_units_short']
+          Metric.new do |m|
+            m.name        = metric['name']
+            m.description = metric['description']
+            m.units       = metric['attributes']['display_units_short']
+            m.graph_url   = "https://metrics.librato.com/metrics/#{metric['name']}"
+
             m.service_identifier = {
               :name => metric['name'],
+              :description => metric['description'],
               :type => 'metric'
             }
           end
@@ -46,9 +50,10 @@ module SectionOne
     def instruments
       paginated_query('instruments') do |resp|
         resp['instruments'].map do |instrument|
-          Metric.new('librato').tap do |m|
+          Metric.new do |m|
             m.name  = instrument['name']
             m.units = instrument['attributes']['display_units_short']
+
             m.service_identifier = {
               :id => instrument['id'],
               :type => 'instrument'
@@ -61,7 +66,7 @@ module SectionOne
     def metrics
       results = [
         Serious.future { all_metrics },
-        Serious.future { instruments }
+        # Serious.future { instruments }
       ]
 
       results.flatten.map do |r|

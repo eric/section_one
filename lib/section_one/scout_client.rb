@@ -48,10 +48,13 @@ module SectionOne
         descriptor = [ descriptor ].flatten
 
         descriptor.map do |description|
-          Metric.new('scout').tap do |metric|
-            metric.name  = "#{name}: #{description['name']}"
-            metric.units = description['units']
-            metric.service_identifier = { :id => description['id'] }
+          Metric.new do |m|
+            m.name        = metric_name(name, description['name'])
+            m.description = metric_description(name, description['name'])
+            m.units       = description['units']
+            m.graph_url   = "https://scoutapp.com/#{@account}/charts?d=#{description['id']}"
+
+            m.service_identifier = { :id => description['id'] }
           end
         end
       end.flatten.compact
@@ -65,6 +68,34 @@ module SectionOne
       end.map do |m|
         Serious.demand(m)
       end.flatten.compact
+    end
+
+    def metric_name(client_name, metric_description)
+      _, plugin_name, metric_name = *metric_description.match(%r{(.*)/([^/]+)$})
+
+      regex = %r{[ \(\)_\-\.]+}
+
+      client_name = client_name.gsub(regex, ' ').strip.downcase
+
+      plugin_name = plugin_name.gsub(regex, ' ').strip.downcase
+      plugin_name = plugin_name.gsub(%r{ w/}, ' with ')
+      plugin_name = plugin_name.gsub(%r{ /$}, ' root ')
+      plugin_name = plugin_name.gsub(%r{ /}, ' ')
+
+      plugin_name = plugin_name.gsub('/', 'slash')
+      plugin_name = plugin_name.gsub('%', 'percent')
+
+      metric_name = metric_name.gsub(regex, ' ').strip.downcase
+      metric_name = metric_name.gsub('/', 'slash')
+      metric_name = metric_name.gsub('%', 'percent')
+
+      "#{client_name}.#{plugin_name}.#{metric_name}".tr(' ', '_')
+    end
+
+    def metric_description(client_name, metric_description)
+      _, plugin_name, metric_name = *metric_description.match(%r{(.*)/([^/]+)$})
+
+      "#{client_name}: #{plugin_name}: #{metric_name}"
     end
   end
 end
