@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h1><%= @section.name %></h1>
+</div>
+
+<form class="form-search span10">
+  <legend>Add Metrics</legend>
+
+  <div class="form-actions">
+    <input id="metric_search" class="input-xlarge search-query" type="text" placeholder="metric.name">
+  </div>
+
+  <table class="table table-striped table-condensed">
+    <tbody id="metrics">
+      <%- @metrics.each do |metric| -%>
+      <tr>
+        <td>
+          <%= metric.name %>
+          <%- if metric.description.present? -%>
+          <span class="muted">(<%= metric.description %>)</span>
+          <%-end -%>
+        </td>
+        <td>
+          <%= form_tag dashboard_section_metrics_path(@dashboard, @section), :style => 'margin: 0' do %>
+          <%= hidden_field_tag :metric_attributes, metric.to_json %>
+          <%= submit_tag 'Add', :class => 'btn btn-small' %>
+          <% end %>
+        </td>
+      </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+</form>

@@ -1,10 +1,10 @@
 SectionOne::Application.routes.draw do
-  resources :sections
-
   resources :services
 
   resources :dashboards do
-    resources :sections
+    resources :sections do
+      resources :metrics
+    end
   end
 
   resources :metrics

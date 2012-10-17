@@ -57,12 +57,7 @@ module SectionOne
     end
 
     def metrics
-      results = [
-        Serious.future { all_metrics },
-        # Serious.future { instruments }
-      ]
-
-      results.flatten.map do |r|
+      all_metrics.map do |r|
         Serious.demand(r)
       end.flatten.compact
     end
@@ -72,7 +67,7 @@ module SectionOne
         resp['metrics'].map do |metric|
           Metric.new do |m|
             m.name        = metric['name']
-            m.description = metrics['display_name'] || metric['description']
+            m.description = metric['display_name'] || metric['description']
             m.units       = metric['attributes']['display_units_short']
             m.graph_url   = "https://metrics.librato.com/metrics/#{metric['name']}"
 

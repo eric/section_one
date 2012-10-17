@@ -60,3 +60,11 @@ module SectionOne
     config.assets.version = '1.0'
   end
 end
+
+trap 'INFO' do
+  Thread.list.each do |th|
+    if bt = th.backtrace
+      puts "#{th}:\n\t#{bt.join("\n\t")}"
+    end
+  end
+end

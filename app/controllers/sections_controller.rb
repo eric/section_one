@@ -19,18 +19,6 @@ class SectionsController < ApplicationController
   def show
     @section = @dashboard.sections.find(params[:id])
 
-    @metrics = Service.all.map do |service|
-      Serious.future(service) do |service|
-        service.metrics
-      end
-    end
-
-    @metrics = @metrics.map do |service|
-      Serious.demand(service)
-    end
-
-    @metrics = @metrics.flatten.compact.sort_by { |m| m.name }
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @section }
