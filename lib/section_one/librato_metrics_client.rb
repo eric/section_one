@@ -28,18 +28,56 @@ module SectionOne
       return false
     end
 
+    def values_for(identifier, start_at, end_at)
+      case identifier['type']
+      when 'metric'
+        resp = connection.get("metrics/#{identifier['name']}") do |req|
+          req.params = {
+            :start_time        => start_at.to_i,
+            :end_time          => end_at.to_i,
+            :resolution        => 60,
+            :summarize_sources => true
+          }
+        end
+
+        unless resp.success?
+          raise resp.body.inspect
+        end
+
+        if resp.body['measurements'].empty?
+          return []
+        end
+
+        resp.body['measurements']['all'].map do |measure|
+          measure['value']
+        end
+      else
+        raise "Unhandled type: #{identifier.inspect}"
+      end
+    end
+
+    def metrics
+      results = [
+        Serious.future { all_metrics },
+        # Serious.future { instruments }
+      ]
+
+      results.flatten.map do |r|
+        Serious.demand(r)
+      end.flatten.compact
+    end
+
     def all_metrics
       paginated_query('metrics') do |resp|
         resp['metrics'].map do |metric|
           Metric.new do |m|
             m.name        = metric['name']
-            m.description = metric['description']
+            m.description = metrics['display_name'] || metric['description']
             m.units       = metric['attributes']['display_units_short']
             m.graph_url   = "https://metrics.librato.com/metrics/#{metric['name']}"
 
             m.service_identifier = {
               :name => metric['name'],
-              :description => metric['description'],
               :type => 'metric'
             }
           end
@@ -61,17 +99,6 @@ module SectionOne
           end
         end
       end
-    end
-
-    def metrics
-      results = [
-        Serious.future { all_metrics },
-        # Serious.future { instruments }
-      ]
-
-      results.flatten.map do |r|
-        Serious.demand(r)
-      end.flatten.compact
     end
 
     def paginated_query(path, &block)

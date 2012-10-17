@@ -12,6 +12,12 @@
   <h1><%= @section.name %></h1>
 </div>
 
+<div class="span4">
+  <%- @section.metrics.each do |metric| -%>
+  <%= render 'metric', :metric => metric %>
+  <%- end -%>
+</div>
+
 
 <form class="form-search span10">
   <legend>Add Metrics</legend>

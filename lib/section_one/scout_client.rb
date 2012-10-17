@@ -30,6 +30,30 @@ module SectionOne
       return false
     end
 
+    def values_for(identifier, start_at, end_at)
+      resp = connection.get('descriptors/series.xml') do |req|
+        req.params = {
+          :ids   => identifier['id'],
+          :start => start_at.to_i,
+          :end   => end_at.to_i
+        }
+      end
+
+      resp.body['records']['data'].map do |record|
+        record['value'].to_f
+      end
+    end
+
+    def metrics
+      clients.map do |client|
+        Serious.future(client) do |client|
+          metrics_for_client(client)
+        end
+      end.map do |m|
+        Serious.demand(m)
+      end.flatten.compact
+    end
+
     def clients
       connection.get('clients.xml').body['clients']
     end
@@ -57,16 +81,6 @@ module SectionOne
             m.service_identifier = { :id => description['id'] }
           end
         end
-      end.flatten.compact
-    end
-
-    def metrics
-      clients.map do |client|
-        Serious.future(client) do |client|
-          metrics_for_client(client)
-        end
-      end.map do |m|
-        Serious.demand(m)
       end.flatten.compact
     end
 

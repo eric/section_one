@@ -1,0 +1,13 @@
+        <div class="row metric">
+          <div class="span1 metric_name">
+            <small><%= link_to metric.name, metric.url %></small>
+          </div>
+
+          <div class="span2 sparklines" values="<%= metric.values.join(',') %>">
+          </div>
+
+          <div class="span1 metric_value">
+            <strong><%= metric.values.last %></strong><br>
+            <small class="muted"><%= metric.units %></small>
+          </div>
+        </div>
