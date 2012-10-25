@@ -49,7 +49,7 @@ module SectionOne
         end
 
         resp.body['measurements']['all'].map do |measure|
-          measure['value']
+          measure['sum'] || measure['value']
         end
       else
         raise "Unhandled type: #{identifier.inspect}"
